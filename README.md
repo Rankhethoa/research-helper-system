@@ -92,7 +92,7 @@ npm install
 Create a `.env` file in the project root and add:
 
 ```env
-PORT=5000
+PORT=5001
 
 MONGODB_URI=your_mongodb_connection_string
 
