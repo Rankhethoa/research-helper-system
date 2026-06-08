@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Research Helper — Academic Search</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" type="text/css" href="./frontend/css/style.css">
+</head>
+
+<body>
+
+<!-- Header -->
+<header>
+  <a class="logo" href="#">
+    <span class="logo-icon">✦</span>
+    <em>My Research Helper</em>
+  </a>
+  <nav>
+    <a href="index.html" class="home-btn" title="Home" aria-label="Home">
+      <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+        <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/>
+        <polyline points="9 21 9 12 15 12 15 21"/>
+      </svg>
+    </a>
+    <a href="./frontend/html/supervisor.html" class="desktop-link">Find Supervisor</a>
+    <a href="./frontend/html/topicGenerator.html" class="desktop-link">Generate Topic</a>
+    
+    <button class="hamburger" id="hamburgerBtn" aria-label="Open menu" onclick="toggleDrawer()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
+</header>
+
+<div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+
+<!-- Slide-out drawer -->
+<div class="drawer" id="drawer">
+  <div class="drawer-header">
+    <span class="drawer-brand">✦  <em>My Research Helper</em></span>
+    <button class="drawer-close" onclick="closeDrawer()" aria-label="Close menu">✕</button>
+  </div>
+
+  <nav class="drawer-nav">
+    <div class="drawer-section-label">Navigation </div>
+    
+    <a class="drawer-link active" href="index.html">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/><polyline points="9 21 9 12 15 12 15 21"/></svg>
+      Home
+    </a>
+    <a class="drawer-link" href="index.html">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      Search
+    </a>
+    
+    <hr class="drawer-divider">
+
+    <div class="drawer-section-label">Discover</div>
+    <a class="drawer-link" href="./frontend/html/supervisor.html">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      Find supervisor
+    </a>
+    <a class="drawer-link" href="./frontend/html/researchpeer.html">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      Find research buddy
+    </a>
+    <a class="drawer-link" href="./frontend/html/chatbox.html">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      Get support
+    </a>
+
+    <hr class="drawer-divider">
+
+    <div class="drawer-section-label">Topic</div>
+    <a class="drawer-link" href="./frontend/html/topicGenerator.html">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Generate topic
+    </a>
+    <a class="drawer-link" href="./frontend/html/finetune.html">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/><circle cx="12" cy="12" r="3"/></svg>
+      Narrow topic
+    </a>
+    <a class="drawer-link" href="./frontend/html/lit-review.html">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21z"/><circle cx="12" cy="7" r="4"/></svg>
+      Literature Review Assistant
+    </a>
+  </nav>
+
+</div>
+
+<!-- Hero -->
+<section class="hero">
+  <h1 class="hero-tagline">Search the <em>literature</em> of<br>human knowledge</h1>
+  <p class="hero-sub">Articles · Preprints · Theses · Books · Conference Papers · Patents</p>
+
+  <div class="search-container">
+    <div class="search-box">
+      <input class="search-input" type="text" placeholder="Search articles, authors, journals…" id="searchInput" value="">
+      <button class="search-btn" onclick="doSearch()">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        Search
+      </button>
+    </div>
+    <div class="search-filters">
+      <span class="filter-chip active" onclick="toggleChip(this)">All Fields</span>
+      <span class="filter-chip" onclick="toggleChip(this)">Title Only</span>
+      <span class="filter-chip" onclick="toggleChip(this)">Author</span>
+      <span class="filter-chip" onclick="toggleChip(this)">Abstract</span>
+      <span class="filter-chip" onclick="toggleChip(this)">Since 2020</span>
+      <span class="filter-chip" onclick="toggleChip(this)">Open Access</span>
+    </div>
+  </div>
+</section>
+
+<!-- Main -->
+<div class="main">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-title">Year Range</div>
+      <div class="year-range">
+        <input class="year-input" type="number" placeholder="2010" min="1900" max="2026">
+        <span class="year-sep">–</span>
+        <input class="year-input" type="number" placeholder="2026" min="1900" max="2026">
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-title">Subject Area</div>
+      <!-- data-subject must match keys in CONCEPT_IDS on the server -->
+      <div class="sidebar-item" data-subject="Computer Science" onclick="toggleSubject('Computer Science', this)">
+        <span class="sitem-label">Computer Science</span>
+        <span class="sitem-count">—</span>
+      </div>
+      <div class="sidebar-item" data-subject="Machine Learning" onclick="toggleSubject('Machine Learning', this)">
+        <span class="sitem-label">Machine Learning</span>
+        <span class="sitem-count">—</span>
+      </div>
+      <div class="sidebar-item" data-subject="NLP" onclick="toggleSubject('NLP', this)">
+        <span class="sitem-label">NLP</span>
+        <span class="sitem-count">—</span>
+      </div>
+      <div class="sidebar-item" data-subject="Computational Biology" onclick="toggleSubject('Computational Biology', this)">
+        <span class="sitem-label">Computational Biology</span>
+        <span class="sitem-count">—</span>
+      </div>
+      <div class="sidebar-item" data-subject="Physics" onclick="toggleSubject('Physics', this)">
+        <span class="sitem-label">Physics</span>
+        <span class="sitem-count">—</span>
+      </div>
+      <div class="sidebar-item" data-subject="Mathematics" onclick="toggleSubject('Mathematics', this)">
+        <span class="sitem-label">Mathematics</span>
+        <span class="sitem-count">—</span>
+      </div>
+    </div>
+  
+    <div class="sidebar-section">
+      <div class="sidebar-title">Publication Type</div>
+      <!-- data-pubtype must match keys in TYPE_MAP on the server -->
+      <div class="sidebar-item" data-pubtype="Journal Article" onclick="togglePubType('Journal Article', this)">
+        <span class="sitem-label">Journal Article</span>
+        <span class="sitem-count">—</span>
+      </div>
+      <div class="sidebar-item" data-pubtype="Conference Paper" onclick="togglePubType('Conference Paper', this)">
+        <span class="sitem-label">Conference Paper</span>
+        <span class="sitem-count">—</span>
+      </div>
+      <div class="sidebar-item" data-pubtype="Preprint" onclick="togglePubType('Preprint', this)">
+        <span class="sitem-label">Preprint</span>
+        <span class="sitem-count">—</span>
+      </div>
+      <div class="sidebar-item" data-pubtype="Thesis" onclick="togglePubType('Thesis', this)">
+        <span class="sitem-label">Thesis</span>
+        <span class="sitem-count">—</span>
+      </div>
+      <div class="sidebar-item" data-pubtype="Book" onclick="togglePubType('Book', this)">
+        <span class="sitem-label">Book</span>
+        <span class="sitem-count">—</span>
+      </div>
+      <div class="sidebar-item" data-pubtype="Book Chapter" onclick="togglePubType('Book Chapter', this)">
+        <span class="sitem-label">Book Chapter</span>
+        <span class="sitem-count">—</span>
+      </div>
+      <div class="sidebar-item" data-pubtype="Review" onclick="togglePubType('Review', this)">
+        <span class="sitem-label">Review</span>
+        <span class="sitem-count">—</span>
+      </div>
+      <div class="sidebar-item" data-pubtype="Dataset" onclick="togglePubType('Dataset', this)">
+        <span class="sitem-label">Dataset</span>
+        <span class="sitem-count">—</span>
+      </div>
+      <div class="sidebar-item" data-pubtype="Report" onclick="togglePubType('Report', this)">
+        <span class="sitem-label">Report</span>
+        <span class="sitem-count">—</span>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- Results -->
+  <main>
+    <div class="results-header">
+      <div class="results-meta"></div>
+      <select class="sort-select">
+        <option>Sort by Relevance</option>
+        <option>Sort by Date (newest)</option>
+        <option>Sort by Citations</option>
+      </select>
+    </div>
+
+    <div id="results"></div>
+
+    <div class="pagination"></div> 
+  </main> 
+</div>
+
+<!-- Cite Modal -->
+<div class="modal-overlay" id="citeModal">
+  <div class="modal">
+    <h2 class="modal-title">Cite this work</h2>
+    <div class="cite-format-tabs">
+      <span class="cite-tab active" onclick="setCiteFormat(this,'apa')">APA</span>
+      <span class="cite-tab" onclick="setCiteFormat(this,'mla')">MLA</span>
+      <span class="cite-tab" onclick="setCiteFormat(this,'chicago')">Chicago</span>
+      <span class="cite-tab" onclick="setCiteFormat(this,'bibtex')">BibTeX</span>
+      <span class="cite-tab" onclick="setCiteFormat(this,'ris')">RIS</span>
+    </div>
+    <div class="cite-text" id="citeText"></div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeCite()">Close</button>
+      <button class="btn btn-primary" onclick="copyCite()">Copy Citation</button>
+    </div>
+  </div>
+</div>
+
+<!-- JavaScript Files -->
+<script src="./frontend/js/script.js"></script>
+
+</body>
+</html>

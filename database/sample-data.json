@@ -1,0 +1,95 @@
+{
+    "professors": [
+      {
+        "_id": "PROF001",
+        "name": "Prof. Li Wei",
+        "department": "Computer Science",
+        "contact": {
+          "email": "liwei@nankai.edu.cn"
+        },
+        "researchAreas": [
+          "Artificial Intelligence",
+          "Machine Learning",
+          "Natural Language Processing"
+        ],
+        "photoUrl": "https://example.com/profiles/liwei.jpg",
+        "profileUrl": "https://university.edu/profiles/liwei",
+        "acceptingStudents": true,
+        "availableSlots": 3
+      },
+      {
+        "_id": "PROF002",
+        "name": "Dr. Sarah Johnson",
+        "department": "Software Engineering",
+        "contact": {
+          "email": "sjohnson@university.edu"
+        },
+        "researchAreas": [
+          "Cybersecurity",
+          "Network Security",
+          "Digital Forensics"
+        ],
+        "photoUrl": "https://example.com/profiles/sjohnson.jpg",
+        "profileUrl": "https://university.edu/profiles/sjohnson",
+        "acceptingStudents": true,
+        "availableSlots": 2
+      },
+      {
+        "_id": "PROF003",
+        "name": "Prof. Zhang Min",
+        "department": "Data Science",
+        "contact": {
+          "email": "zhangmin@university.edu"
+        },
+        "researchAreas": [
+          "Big Data Analytics",
+          "Data Mining",
+          "Machine Learning"
+        ],
+        "photoUrl": "https://example.com/profiles/zhangmin.jpg",
+        "profileUrl": "https://university.edu/profiles/zhangmin",
+        "acceptingStudents": false,
+        "availableSlots": 0
+      }
+    ],
+  
+    "students": [
+      {
+        "_id": "STU001",
+        "name": "Mpoi Rankhethoa",
+        "college": "College of Software",
+        "contact": {
+          "email": "student1@example.com"
+        },
+        "researchAreas": [
+          "Cybersecurity",
+          "Artificial Intelligence",
+          "Software Engineering"
+        ]
+      },
+      {
+        "_id": "STU002",
+        "name": "John Chen",
+        "college": "College of Computer Science",
+        "contact": {
+          "email": "johnchen@example.com"
+        },
+        "researchAreas": [
+          "Machine Learning",
+          "Natural Language Processing"
+        ]
+      },
+      {
+        "_id": "STU003",
+        "name": "Maria Garcia",
+        "college": "College of Information Systems",
+        "contact": {
+          "email": "maria.garcia@example.com"
+        },
+        "researchAreas": [
+          "Data Science",
+          "Big Data Analytics"
+        ]
+      }
+    ]
+  }

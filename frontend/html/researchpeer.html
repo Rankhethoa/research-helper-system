@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Research Peers — My Research Helper</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- CSS Files -->
+<link rel="stylesheet" type="text/css" href="../css/topicGenerator.css">
+<link rel="stylesheet" type="text/css" href="../css/style.css">
+<link rel="stylesheet" type="text/css" href="../css/supervisor.css">
+
+
+</head>
+<body>
+
+<!-- Header -->
+<header>
+  <a class="logo" href="../../index.html">
+    <span class="logo-icon">✦</span>
+    <em>My Research Helper</em>
+  </a>
+  <a class="back-btn" href="../../index.html">
+    <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+    Back to Search
+  </a>
+</header>
+
+<!-- Page hero  -->
+<section class="page-hero">
+  <h1 class="page-title">Find a <em>Research Buddy</em></h1>
+  <p class="page-sub">Browse our student profiles and connect with your research peers</p>
+  <div class="search-wrap">
+    <input class="search-input-hero" type="text" id="heroSearch"
+           placeholder="Search by name, college, or research area…"
+           oninput="debouncedFetch()">
+    <span class="search-icon">
+      <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    </span>
+  </div>
+</section>
+
+<!-- Stats bar -->
+<div class="stats-bar">
+  <span class="stats-text" id="statsText">Loading peers...</span>
+  <div style="display:flex;align-items:center;gap:.75rem">
+    <div class="view-toggle">
+      <button class="view-btn active" id="gridViewBtn" title="Grid view" onclick="setView('grid')">
+        <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zm8 0A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm-8 8A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm8 0A1.5 1.5 0 0 1 10.5 9h3A1.5 1.5 0 0 1 15 10.5v3A1.5 1.5 0 0 1 13.5 15h-3A1.5 1.5 0 0 1 9 13.5v-3z"/></svg>
+      </button>
+      <button class="view-btn" id="listViewBtn" title="List view" onclick="setView('list')">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Main layout  -->
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-inner">
+
+      <!-- Active chips -->
+      <div id="activeFilters" class="active-filters" style="display:none"></div>
+
+      <!-- Student filter -->
+      <div class="filter-card">
+        <div class="filter-heading">
+          College
+          <button class="filter-clear" onclick="clearFilter('coll')">Clear</button>
+        </div>
+        <div class="filter-list" id="collList">
+          <div class="skel-line w80" style="height:22px;margin:.2rem 0"></div>
+          <div class="skel-line w60" style="height:22px;margin:.2rem 0"></div>
+          <div class="skel-line w70" style="height:22px;margin:.2rem 0"></div>
+        </div>
+      </div>
+
+      <!-- Research area filter -->
+      <div class="filter-card">
+        <div class="filter-heading">
+          Research Area
+          <button class="filter-clear" onclick="clearFilter('area')">Clear</button>
+        </div>
+        <div class="filter-list" id="areaList">
+          <div class="skel-line w80" style="height:22px;margin:.2rem 0"></div>
+          <div class="skel-line w60" style="height:22px;margin:.2rem 0"></div>
+          <div class="skel-line w70" style="height:22px;margin:.2rem 0"></div>
+        </div>
+      </div>
+
+      <!-- Mobile close -->
+      <button onclick="closeMobileFilters()" style="display:none;padding:.65rem;background:var(--ink);color:var(--cream);border:none;border-radius:7px;font-family:'Source Serif 4',serif;font-size:.9rem;cursor:pointer;width:100%" id="mobileFilterClose">
+        Apply Filters
+      </button>
+    </div>
+  </aside>
+
+  <!-- Results -->
+  <main>
+    <button class="mobile-filter-btn" onclick="openMobileFilters()">
+      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="10" y1="18" x2="14" y2="18"/></svg>
+      Filter
+      <span id="filterCountBadge" style="display:none;background:var(--amber);color:var(--ink);padding:.1rem .45rem;border-radius:10px;font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:700"></span>
+    </button>
+
+    <div class="results-sort">
+      <span class="results-sort-label" id="sortLabel">Sort by:</span>
+      <select class="sort-select" id="sortSelect" onchange="applyFilters()">
+        <option value="name">Name (A–Z)</option>
+        <option value="college">College</option>
+      </select>
+    </div>
+
+    <div class="error-banner" id="errorBanner"></div>
+    <div id="cardGrid"></div>
+    <div class="pagination" id="pagination"></div>
+  </main>
+</div>
+
+<!-- Profile modal -->
+<div class="modal-overlay" id="profileModal" onclick="closeModal(event)">
+  <div class="modal" id="modalContent"></div>
+</div>
+
+<!-- JavaScript Files -->
+<script src="../js/researchpeer.js"></script>
+
+<script>
+    boot();
+</script>
+</body>
+</html>

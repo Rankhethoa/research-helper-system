@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Literature Review Assistant</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+
+<link rel="stylesheet" type="text/css" href="../css/style.css">
+<link rel="stylesheet" type="text/css" href="../css/topicGenerator.css">
+<link rel="stylesheet" type="text/css" href="../css/lit-review.css">
+</head>
+
+<body>
+<h2 class="sr-only">Literature Review Assistant — AI-powered structured analysis of academic literature</h2>
+
+<!-- HEADER -->
+<header>
+  <a class="logo" href="../../index.html">
+    <span class="logo-icon">✦</span>
+    <em>My Research Helper</em>
+  </a>
+  <a class="back-btn" href="../../index.html">
+    <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+    Back to Search
+  </a>
+</header>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="page-hero-badge"><span class="dot"></span> AI-Powered</div>
+  <h1 class="page-title">Literature <em>Review</em> Assistant</h1>
+  <p class="page-sub">Paste a topic or upload PDFs — get a structured map of the field</p>
+</section>
+
+<!-- LOADING OVERLAY -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="loading-ring"></div>
+  <div class="loading-text" id="loadingText">Analysing the literature…</div>
+  <div class="loading-sub" id="loadingStatus">Consulting the literature</div>
+</div>
+
+<!-- PAGE BODY -->
+<div class="page">
+
+  <!-- INPUT SECTION -->
+  <div id="inputSection">
+
+    <!-- STEP 1: Topic + DOI + PDF upload -->
+    <div class="form-card">
+      <div class="step-row">
+        <div class="step-num">1</div>
+        <div class="step-label">Enter your research topic or paste an abstract</div>
+      </div>
+      <textarea class="topic-input" id="topicInput" placeholder="e.g. Bias mitigation in large language models for low-resource languages" rows="3"></textarea>
+
+      <div style="margin-top:10px">
+        <label class="form-label">Or paste a DOI / URL (optional)</label>
+        <input class="doi-input" id="doiInput" placeholder="e.g. 10.18653/v1/2020.emnlp-main.522 or https://arxiv.org/abs/...">
+      </div>
+
+      <!-- PDF Upload -->
+      <div style="margin-top:16px">
+        <label class="form-label">Upload PDFs for deeper analysis (optional · up to 5)</label>
+        <div class="drop-zone" id="dropZone">
+          <input type="file" id="fileInput" accept="application/pdf" multiple>
+          <i class="ti ti-upload drop-icon-ti" aria-hidden="true"></i>
+          <div class="drop-title">Drop PDFs here or click to browse</div>
+          <div class="drop-sub">Up to 5 files · Max 20 MB each · PDF only</div>
+        </div>
+        <div class="file-list" id="fileList"></div>
+      </div>
+    </div>
+
+    <!-- STEP 2: Output preferences -->
+    <div class="form-card">
+      <div class="step-row">
+        <div class="step-num">2</div>
+        <div class="step-label">Output preferences</div>
+      </div>
+      <div class="toggle-grid" id="toggleGrid">
+        <div class="toggle-card on" data-key="themes" onclick="toggleOpt(this)">
+          <div class="tc-text">
+            <div class="tc-label">Key themes &amp; synthesis</div>
+            <div class="tc-desc">Map recurring concepts across sources</div>
+          </div>
+          <div class="toggle-pill on"></div>
+        </div>
+        <div class="toggle-card on" data-key="gaps" onclick="toggleOpt(this)">
+          <div class="tc-text">
+            <div class="tc-label">Research gap analysis</div>
+            <div class="tc-desc">Identify understudied areas</div>
+          </div>
+          <div class="toggle-pill on"></div>
+        </div>
+        <div class="toggle-card on" data-key="methods" onclick="toggleOpt(this)">
+          <div class="tc-text">
+            <div class="tc-label">Methodology comparison</div>
+            <div class="tc-desc">Compare methods across papers</div>
+          </div>
+          <div class="toggle-pill on"></div>
+        </div>
+        <div class="toggle-card on" data-key="papers" onclick="toggleOpt(this)">
+          <div class="tc-text">
+            <div class="tc-label">Key papers &amp; summaries</div>
+            <div class="tc-desc">Ranked list of relevant sources</div>
+          </div>
+          <div class="toggle-pill on"></div>
+        </div>
+        <div class="toggle-card on" data-key="conflicts" onclick="toggleOpt(this)">
+          <div class="tc-text">
+            <div class="tc-label">Conflicting findings</div>
+            <div class="tc-desc">Highlight where scholars disagree</div>
+          </div>
+          <div class="toggle-pill"></div>
+        </div>
+        <div class="toggle-card on" data-key="future" onclick="toggleOpt(this)">
+          <div class="tc-text">
+            <div class="tc-label">Future directions</div>
+            <div class="tc-desc">Suggested next steps from literature</div>
+          </div>
+          <div class="toggle-pill"></div>
+        </div>
+      </div>
+
+      <div class="error-box" id="errorBox"></div>
+
+      <button class="gen-btn" id="genBtn" onclick="generateReview()">
+        <i class="ti ti-sparkles" aria-hidden="true"></i>
+        <span id="genBtnText">Generate Literature Review</span>
+      </button>
+    </div>
+  </div>
+
+  <!--  Loading Section  -->
+  <div id="loadingSection" class="hidden">
+    <div class="loading-card">
+      <div class="loading-ring"></div>
+      <div style="font-size:15px;font-weight:500" id="loadingTextInline">Analysing the literature…</div>
+      <div class="loading-status" id="loadingStatusInline">Consulting the literature</div>
+    </div>
+  </div>
+
+  <!--  Result Section -->
+  <div id="resultSection" class="hidden fade-in">
+
+    <!-- Fallback notice -->
+    <div id="fallbackNotice" style="display:none;background:#fefce8;border:1px solid #fde68a;border-radius:8px;padding:0.85rem 1.1rem;margin-bottom:1.25rem;font-size:0.83rem;color:#92400e;align-items:flex-start;gap:0.6rem">
+      <svg style="flex-shrink:0;margin-top:1px" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/></svg>
+      <span>AI analysis was unavailable — this review was generated using rule-based text extraction only. Results may be less accurate. Retry when the AI service is restored for a full analysis.</span>
+    </div>
+
+    <!-- Recap bar -->
+    <div class="recap-bar" id="recapBar"></div>
+
+    <!-- Uploaded files summary (shown when PDFs were uploaded) -->
+    <div class="upload-summary" id="uploadSummary"></div>
+
+    <!-- Result layout: left + right columns -->
+    <div class="result-layout">
+      <div id="leftCol">
+
+        <!-- Synthesis / Summary -->
+        <div class="result-section" id="secSummary">
+          <div class="result-section-title">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 3.375 3.375 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25z"/></svg>
+            Synthesis
+          </div>
+          <p class="summary-text" id="summaryText"></p>
+        </div>
+
+        <!-- Individual documents (PDF upload mode only) -->
+        <div class="result-section hidden" id="secDocs">
+          <div class="result-section-title">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>
+            Individual Documents
+          </div>
+          <div class="doc-grid" id="docGrid"></div>
+        </div>
+
+        <!-- Key themes -->
+        <div class="result-section hidden" id="secThemes">
+          <div class="result-section-title">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z"/></svg>
+            Key Themes
+          </div>
+          <div class="theme-list" id="themeList"></div>
+        </div>
+
+        <!-- Comparisons (PDF upload mode only) -->
+        <div class="result-section hidden" id="secComparisons">
+          <div class="result-section-title">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5"/></svg>
+            Document Comparisons
+          </div>
+          <div style="overflow-x:auto">
+            <table class="comparison-table" id="compTable">
+              <thead id="compHead"></thead>
+              <tbody id="compBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+      <div id="rightCol">
+
+        <!-- Key papers -->
+        <div class="result-section hidden" id="secPapers">
+          <div class="result-section-title">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/></svg>
+            Key Papers
+          </div>
+          <div id="papersList"></div>
+        </div>
+
+        <!-- Methodology -->
+        <div class="result-section hidden" id="secMethods">
+          <div class="result-section-title">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23-.693L5 14.5m14.8.8l1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0112 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5"/></svg>
+            Methodology Overview
+          </div>
+          <div id="methodsList"></div>
+        </div>
+
+        <!-- Agreements -->
+        <div class="result-section hidden" id="secAgreements">
+          <div class="result-section-title">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            Points of Agreement
+          </div>
+          <div class="agreement-list" id="agreementList"></div>
+        </div>
+
+        <!-- Conflicts -->
+        <div class="result-section hidden" id="secConflicts">
+          <div class="result-section-title">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/></svg>
+            Contradictions &amp; Conflicts
+          </div>
+          <div class="conflict-list" id="conflictList"></div>
+        </div>
+
+        <!-- Research gaps -->
+        <div class="result-section hidden" id="secGaps">
+          <div class="result-section-title">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            Research Gaps
+          </div>
+          <div class="gap-list" id="gapList"></div>
+        </div>
+
+        <!-- Future directions -->
+        <div class="result-section hidden" id="secFuture">
+          <div class="result-section-title">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/></svg>
+            Future Directions
+          </div>
+          <div class="future-list" id="futureList"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="review-footer">
+      <button class="footer-btn-primary" onclick="copyReview()"><i class="ti ti-copy" aria-hidden="true"></i> Copy summary</button>
+      <button class="footer-btn" onclick="exportReview()"><i class="ti ti-download" aria-hidden="true"></i> Export .txt</button>
+      <button class="footer-btn" onclick="saveToProject()"><i class="ti ti-folder" aria-hidden="true"></i> Save to project</button>
+      <button class="footer-btn" onclick="resetToInput()"><i class="ti ti-refresh" aria-hidden="true"></i> New review</button>
+      <span class="footer-meta" id="footerMeta"></span>
+    </div>
+
+  </div>
+
+</div>
+
+<script src="../js/lit-review.js"></script>
+</body>
+</html>
