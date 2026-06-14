@@ -135,6 +135,8 @@ If applicable:
 |--------|---------|---------|
 | User | demo@example.com | password123 |
 
+## NOTE:
+You can use the code without a DeepSeek API key but rendered results may not be as extensive
 
 ## License
 
